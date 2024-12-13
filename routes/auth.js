@@ -31,9 +31,10 @@ router.post("/login", async (req, res) => {
         if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "12h" });
-
+        // res.cookie("auth_token", token, { maxAge: 86400000 });
         res.cookie("auth_token", token, {
-            secure: true,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
             sameSite: "Lax",
             maxAge: 86400000,
         });

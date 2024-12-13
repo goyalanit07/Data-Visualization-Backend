@@ -43,23 +43,4 @@ router.post("/logout", (req, res) => {
     res.status(200).json({ message: "Logged out successfully" });
 });
 
-router.get("/verify", async (req, res) => {
-    try {
-        const token = req.cookies.auth_token;
-
-        if (!token) {
-            return res.status(401).json({ message: "Not authenticated" });
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.userId);
-        if (!user) {
-            return res.status(401).json({ message: "User not found" });
-        }
-
-        res.json({ user });
-    } catch (err) {
-        res.status(500).json({ message: "Server error" });
-    }
-});
 module.exports = router;

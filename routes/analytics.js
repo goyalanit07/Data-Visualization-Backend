@@ -4,7 +4,6 @@ const fs = require("fs");
 const csv = require("csv-parser");
 const { authenticateToken } = require("../utils/authenticateToken");
 
-
 const router = express.Router();
 
 const dataFile = path.join(__dirname, '..', 'public', 'data.csv');
@@ -17,17 +16,6 @@ const parseDate = (dateStr) => {
     const parsedDate = new Date(year, month - 1, day);
     return isNaN(parsedDate) ? null : parsedDate;
 };
-
-// Endpoint to load and process CSV data
-router.get("/data", authenticateToken, (req, res) => {
-    const results = [];
-    fs.createReadStream(dataFile)
-        .pipe(csv())
-        .on("data", (data) => results.push(data))
-        .on("end", () => {
-            res.json({ data: results });
-        });
-});
 
 // Endpoint to load and process CSV data with filters
 router.get("/filterdata", authenticateToken, (req, res) => {
@@ -125,6 +113,3 @@ router.get("/line-chart", authenticateToken, (req, res) => {
 });
 
 module.exports = router;
-
-// http://localhost:5000/analytics/filterdata?startDate=2022-10-24&endDate=2022-10-28&ageGroup=15-25&gender=Male
-// http://localhost:5000/analytics/line-chart?startDate=2022-10-24&endDate=2022-10-28&ageGroup=15-25&gender=Male&feature=A

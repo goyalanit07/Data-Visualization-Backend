@@ -17,7 +17,7 @@ app.use("/auth", userRouter)
 app.use("/analytics", analyticsRouter)
 
 app.get('/test', (req, res) => {
-    res.send('Hello World!')
+    res.send('Server is running')
 })
 
 const port = process.env.PORT || 5000;

@@ -23,7 +23,6 @@ router.post("/signup", async (req, res) => {
 // Login
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
-    console.log("----------", process.env.NODE_ENV);
     
     try {
         const user = await User.findOne({ email });
@@ -35,7 +34,6 @@ router.post("/login", async (req, res) => {
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "12h" });
         // res.cookie("auth_token", token, { maxAge: 86400000 });
         res.cookie("auth_token", token, {
-            httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "Lax",
             maxAge: 86400000,

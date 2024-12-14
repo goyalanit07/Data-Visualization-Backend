@@ -35,10 +35,10 @@ router.post("/login", async (req, res) => {
         // res.cookie("auth_token", token, { maxAge: 86400000 });
         res.cookie("auth_token", token, {
             secure: process.env.NODE_ENV === "production",
-            sameSite: "None",
+            sameSite: "lax",
             maxAge: 86400000,
         });
-        res.status(200).json({ message: "Logged in successfully" });
+        res.status(200).json({ message: "Logged in successfully", token });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
